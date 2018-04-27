@@ -4,6 +4,8 @@
     {
             $arElements = unserialize($APPLICATION->get_cookie('favorites'));
             $wishCount = count($arElements);
+            if($arElements == '') 
+               unset($arElements);
     }
     else {
          $idUser = $USER->GetID();
