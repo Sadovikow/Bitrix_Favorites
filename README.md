@@ -74,6 +74,8 @@ if(!$USER->IsAuthorized()) // Для неавторизованного
 {
     global $APPLICATION;
     $favorites = $APPLICATION->get_cookie("favorites");
+    if($favorites == '') // если в куки ничего нет, обнуляем, чтобы не выводилось 1
+		unset($favorites);
 }
 else {
      $idUser = $USER->GetID();
