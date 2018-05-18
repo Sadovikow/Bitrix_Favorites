@@ -20,9 +20,11 @@
          $arUser = $rsUser->Fetch();
         foreach($arUser['UF_FAVORITES'] as $k=>$fav) // Checking empty IDs
 	{
-		if($fav == '0')
+		if($fav == '0') 
+		{
 			unset($arUser['UF_FAVORITES'][$k]);
 			unset($fav);
+		}
 	}
         $wishCount = count($arUser['UF_FAVORITES']);
 
