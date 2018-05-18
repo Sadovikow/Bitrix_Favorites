@@ -4,6 +4,7 @@ $(document).ready(function() {
         var favorID = $(this).attr('data-item');
         if($(this).hasClass('active'))
             var doAction = 'delete';
+            $('.fav_page').find('.favor[data-item="'+favorID+'"]').parents('.cat_list').remove(); // Моментальное удаление, если мы на странице избранного
         else
             var doAction = 'add';
 
