@@ -1,6 +1,10 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Title");
+$APPLICATION->SetTitle(" ");
 $GLOBALS['APPLICATION']->RestartBuffer();
+use Bitrix\Main\Application;
+use Bitrix\Main\Web\Cookie;
+$application = Application::getInstance();
+$context = $application->getContext(); 
 
 /* Избранное */
    global $APPLICATION;
@@ -20,14 +24,15 @@ $GLOBALS['APPLICATION']->RestartBuffer();
             unset($arElements[$key]);
             $result = 2; // Датчик. Удаляем
         }
-        $APPLICATION->set_cookie("favorites", serialize($arElements));
+        $cookie = new Cookie("favorites", serialize($arElements), time() + 60*60*24*60); $cookie->setDomain($context->getServer()->getHttpHost()); 
+        $cookie->setHttpOnly(false);  $context->getResponse()->addCookie($cookie); 
+        $context->getResponse()->flush("");
       }
       else { // Для авторизованного
          $idUser = $USER->GetID();
          $rsUser = CUser::GetByID($idUser);
          $arUser = $rsUser->Fetch();
          $arElements = $arUser['UF_FAVORITES'];  // Достаём избранное пользователя
-
          if(!in_array($_GET['id'], $arElements)) // Если еще нету этой позиции в избранном
          {
             $arElements[] = $_GET['id'];
@@ -38,12 +43,10 @@ $GLOBALS['APPLICATION']->RestartBuffer();
             unset($arElements[$key]);
             $result = 2;
          }
-         $USER->Update($idUser, Array("UF_FAVORITES"=>$arElements )); // Добавляем элемент в избранное
+         $USER->Update($idUser, Array("UF_FAVORITES" => $arElements)); // Добавляем элемент в избранное
       }
    }
-/* Избранное */
-
+/* Избранное */ 
 echo json_encode($result);
-
  die(); ?>
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
