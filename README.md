@@ -73,19 +73,18 @@ $(document).ready(function() {
 if(!$USER->IsAuthorized()) // Для неавторизованного
 {
     global $APPLICATION;
-    $favorites = $APPLICATION->get_cookie("favorites");
-    if($favorites == '') // если в куки ничего нет, обнуляем, чтобы не выводилось 1
-		unset($favorites);
+	$favorites = unserialize(Application::getInstance()->getContext()->getRequest()->getCookie("favorites"));
 }
 else {
      $idUser = $USER->GetID();
      $rsUser = CUser::GetByID($idUser);
      $arUser = $rsUser->Fetch();
      $favorites = $arUser['UF_FAVORITES'];
-    //print_r($favorites);
+    
 }
 
 $GLOBALS['arrFilter']=Array("ID" => $favorites);
+if(count($favorites) > 0 && is_array($favorites)):
 ```
 
 Товары выводятся, добавляются и удаляются из избранного. Осталось сделать, чтобы значок избранного (например сердечко), показывал нам, добавлен ли товар в избранное или нет. Для этого обратимся к файлу <a href="component_epilog.php">component_epilog.php</a>, в котором будем добавлять соответствующий класс active к иконки избранного (середчко), который добавлен в избранное
