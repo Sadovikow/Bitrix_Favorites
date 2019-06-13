@@ -1,4 +1,9 @@
 <?
+
+use Bitrix\Main\Application;
+use Bitrix\Main\Web\Cookie;
+$application = Application::getInstance();
+$context = $application->getContext(); 
  /* Вывод количества избранного */
     if(!$USER->IsAuthorized()) // Для неавторизованного
     {
@@ -30,6 +35,7 @@
 
 
      }
+
  /* Вывод количества избранного */
 ?>
 <a id='want' class="block" href="/personal/wishlist/">
