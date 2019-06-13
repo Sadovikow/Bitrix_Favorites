@@ -2,7 +2,9 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Избранное");
     use Bitrix\Main\Application;
-	use Bitrix\Main\Web\Cookie;
+    use Bitrix\Main\Web\Cookie;
+$application = Application::getInstance();
+$context = $application->getContext(); 
 ?>
 
 <div class="inner container favorites">
@@ -11,7 +13,7 @@ $APPLICATION->SetTitle("Избранное");
 if(!$USER->IsAuthorized()) // Для неавторизованного
 {
     global $APPLICATION;
-	$favorites = unserialize(Application::getInstance()->getContext()->getRequest()->getCookie("favorites"));
+	$favorites = unserialize($APPLICATION->get_cookie('favorites'));
 }
 else {
      $idUser = $USER->GetID();
@@ -19,6 +21,9 @@ else {
      $arUser = $rsUser->Fetch();
      $favorites = $arUser['UF_FAVORITES'];
     
+}
+if(!is_array($favorites)) {
+	unset($favorites);
 }
 
 $GLOBALS['arrFilter']=Array("ID" => $favorites);
