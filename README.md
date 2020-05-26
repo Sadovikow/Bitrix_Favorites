@@ -115,6 +115,7 @@ foreach($arFavorites as $k => $favoriteItem):?>
 
 Готово !
 
+Смотрите больше: <a href="https://www.redsgroup.ru/workshop/rework/wishlist-bitrix/" title="Битрикс избранное">В этой статье</a>
 
 
 
