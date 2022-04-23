@@ -1,13 +1,14 @@
-<? if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) die();
+<?
+if (!defined('B_PROLOG_INCLUDED') || B_PROLOG_INCLUDED !== true) {
+    die();
+}
 
 global $APPLICATION;
 
-if(!$USER->IsAuthorized())
-{
+if (!$USER->IsAuthorized()) {
     $arFavorites = unserialize($APPLICATION->get_cookie("favorites"));
     //print_r($arFavorites);
-}
-else {
+} else {
     $idUser = $USER->GetID();
     $rsUser = CUser::GetByID($idUser);
     $arUser = $rsUser->Fetch();
@@ -15,9 +16,10 @@ else {
 }
 count($arFavorites);
 /* Меняем отображение сердечка товара */
-foreach($arFavorites as $k => $favoriteItem):?>
+foreach ($arFavorites as $k => $favoriteItem):?>
     <script>
-        if($('a.favor[data-item="<?=$favoriteItem?>"]'))
+        if ($('a.favor[data-item="<?=$favoriteItem?>"]'))
             $('a.favor[data-item="<?=$favoriteItem?>"]').addClass('active');
     </script>
-<?endforeach;?>
+<?
+endforeach; ?>
